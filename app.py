@@ -11,7 +11,7 @@ st.dataframe(df.head())
 
 df.to_sql('orders', conn, if_exists='replace', index=False)
 
-st.success('db created successfully')
+st.success('database created successfully')
 query="SELECT count(*) FROM orders"
 result=pd.read_sql(query,conn)
 st.write(result)
