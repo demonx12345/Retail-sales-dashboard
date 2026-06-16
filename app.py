@@ -6,8 +6,8 @@ conn=sqlite3.connect('retail.db')
 
 df=pd.read_csv('orders.csv')
 st.title('Retail Sales Dashboard')
-df["Revenue"]=(df["List Price"]*df["Quantity"]*(1-df["Discount Price"]/100))
-df["Profit"]=((df["List Price"]-df["cost price"])*df["Quantity"]*(1-df["Discount Price"]/100))
+df["Revenue"]=(df["List Price"]*df["Quantity"]*(1-df["Discount Percent"]/100))
+df["Profit"]=((df["List Price"]-df["cost price"])*df["Quantity"]*(1-df["Discount Percent"]/100))
 
 df.to_sql('orders', conn, if_exists='replace', index=False)
 
@@ -17,9 +17,13 @@ with st.expander('Question 1: What is the category with the highest revenue?'):
         result=(df.groupby('Category')['Revenue']
         .sum()
         .reset_index()
-        .sort_values("Revenue",ascending=False))
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
         st.dataframe(result)
     elif method=='SQL':
         query="""SELECT Category,SUM(Revenue) as Revenue FROM orders GROUP BY Category ORDER BY Revenue DESC"""
         result=pd.read_sql(query,conn)
         st.dataframe(result) 
+    st.success(f"Highest Revenue Category: {result.iloc[0]['Category']}")
+    st.bar_chart(result.set_index("Category"))
+ 
