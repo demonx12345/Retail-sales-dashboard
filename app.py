@@ -6,12 +6,8 @@ conn=sqlite3.connect('retail.db')
 
 df=pd.read_csv('orders.csv')
 st.title('Retail Sales Dashboard')
-st.write(f"Rows: {df.shape[0]}, Columns: {df.shape[1]}")
-st.dataframe(df.head())
+df["Revenue"]=(df["List Price"]*df["Quantity"]*(1-df["Discount Price"]/100))
+df["Profit"]=((df["List Price"]-df["cost price"])*df["Quantity"]*(1-df["Discount Price"]/100))
 
 df.to_sql('orders', conn, if_exists='replace', index=False)
 
-st.success('database created successfully')
-query="SELECT count(*) FROM orders"
-result=pd.read_sql(query,conn)
-st.write(result)
