@@ -11,3 +11,10 @@ df["Profit"]=((df["List Price"]-df["cost price"])*df["Quantity"]*(1-df["Discount
 
 df.to_sql('orders', conn, if_exists='replace', index=False)
 
+with st.expander('Question 1: What is the category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q1')
+    if method=='Python':
+        pass
+    elif method=='SQL':
+        pass 
+ 
