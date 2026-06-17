@@ -173,10 +173,10 @@ with st.expander('Question 9: Which Sub Categories have the highest profit margi
     st.success(f"Sub Category with highest profit margin: {result.iloc[0]['Sub_Category']}")
     st.bar_chart(result.set_index("Sub_Category"))
 
-with st.expander('Question 1: What is the sub category with the highest revenue?'):
+with st.expander('Question 10: What is the State which generated the highest revenue?'):
     method=st.radio('Select a method',['Python','SQL'],key='q10')
     if method=='Python':
-        result=(df.groupby('Sub_Category')['Revenue']
+        result=(df.groupby('State')['Revenue']
         .sum()
         .reset_index()
         .sort_values("Revenue",ascending=False)
@@ -184,9 +184,9 @@ with st.expander('Question 1: What is the sub category with the highest revenue?
         st.dataframe(result)
         st.info("Answer generated using Pandas DataFrame operations")
     elif method=='SQL':
-        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        query="""SELECT State,SUM(Revenue) as RevenueSQL FROM orders GROUP BY State ORDER BY RevenueSQL DESC"""
         result=pd.read_sql(query,conn)
         st.dataframe(result)
         st.info("Answer generated using SQLite query execution")
-    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
-    st.bar_chart(result.set_index("Sub_Category"))
+    st.success(f"State with highest revenue: {result.iloc[0]['State']}")
+    st.bar_chart(result.set_index("State"))
