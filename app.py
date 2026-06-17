@@ -117,23 +117,23 @@ with st.expander('Question 6: Which customer segment generated the highest reven
     st.success(f"Highest Revenue Segment: {result.iloc[0]['Segment']}")
     st.bar_chart(result.set_index("Segment"))
 
-with st.expander('Question 1: What is the sub category with the highest revenue?'):
+with st.expander('Question 7: Which shipping mode is used most frequently?'):
     method=st.radio('Select a method',['Python','SQL'],key='q7')
     if method=='Python':
-        result=(df.groupby('Sub_Category')['Revenue']
-        .sum()
-        .reset_index()
-        .sort_values("Revenue",ascending=False)
+        result=(df.groupby('Ship_Mode')['Order_Id']
+        .count()
+        .reset_index(name='Order_Count')
+        .sort_values("Order_Count",ascending=False)
         .reset_index(drop=True))
         st.dataframe(result)
         st.info("Answer generated using Pandas DataFrame operations")
     elif method=='SQL':
-        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        query="""SELECT Ship_Mode,COUNT(Ship_Mode) as Order_CountSQL FROM orders GROUP BY Ship_Mode ORDER BY Order_CountSQL DESC"""
         result=pd.read_sql(query,conn)
         st.dataframe(result)
         st.info("Answer generated using SQLite query execution")
-    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
-    st.bar_chart(result.set_index("Sub_Category"))
+    st.success(f"Most used Shipping Mode: {result.iloc[0]['Ship_Mode']}")
+    st.bar_chart(result.set_index("Ship_Mode"))
 
 with st.expander('Question 1: What is the sub category with the highest revenue?'):
     method=st.radio('Select a method',['Python','SQL'],key='q8')
