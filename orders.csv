@@ -1,4 +1,4 @@
-Order Id,Ship Mode,Segment,Country,City,State,Postal Code,Region,Category,Sub Category,Product Id,cost price,List Price,Quantity,Discount Percent
+Order_Id,Ship_Mode,Segment,Country,City,State,Postal_Code,Region,Category,Sub_Category,Product_Id,cost_price,List_Price,Quantity,Discount_Percent
 1,Second Class,Consumer,United States,Henderson,Kentucky,42420,South,Furniture,Bookcases,FUR-BO-10001798,240,260,2,2
 2,Second Class,Consumer,United States,Henderson,Kentucky,42420,South,Furniture,Chairs,FUR-CH-10000454,600,730,3,3
 3,Second Class,Corporate,United States,Los Angeles,California,90036,West,Office Supplies,Labels,OFF-LA-10000240,10,10,2,5

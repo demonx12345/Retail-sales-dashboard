@@ -6,24 +6,26 @@ conn=sqlite3.connect('retail.db')
 
 df=pd.read_csv('orders.csv')
 st.title('Retail Sales Dashboard')
-df["Revenue"]=(df["List Price"]*df["Quantity"]*(1-df["Discount Percent"]/100))
-df["Profit"]=((df["List Price"]-df["cost price"])*df["Quantity"]*(1-df["Discount Percent"]/100))
+df["Revenue"]=(df["List_Price"]*df["Quantity"]*(1-df["Discount_Percent"]/100))
+df["Profit"]=((df["List_Price"]-df["cost_price"])*df["Quantity"]*(1-df["Discount_Percent"]/100))
 
 df.to_sql('orders', conn, if_exists='replace', index=False)
 
-with st.expander('Question 1: What is the category with the highest revenue?'):
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
     method=st.radio('Select a method',['Python','SQL'],key='q1')
     if method=='Python':
-        result=(df.groupby('Category')['Revenue']
+        result=(df.groupby('Sub_Category')['Revenue']
         .sum()
         .reset_index()
         .sort_values("Revenue",ascending=False)
         .reset_index(drop=True))
         st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
     elif method=='SQL':
-        query="""SELECT Category,SUM(Revenue) as Revenue FROM orders GROUP BY Category ORDER BY Revenue DESC"""
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
         result=pd.read_sql(query,conn)
-        st.dataframe(result) 
-    st.success(f"Highest Revenue Category: {result.iloc[0]['Category']}")
-    st.bar_chart(result.set_index("Category"))
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
  
