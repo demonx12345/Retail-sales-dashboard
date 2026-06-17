@@ -29,23 +29,23 @@ with st.expander('Question 1: What is the sub category with the highest revenue?
     st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
     st.bar_chart(result.set_index("Sub_Category"))
 
-with st.expander('Question 1: What is the sub category with the highest revenue?'):
+with st.expander('Question 2: Which region generated the highest profit?'):
     method=st.radio('Select a method',['Python','SQL'],key='q2')
     if method=='Python':
-        result=(df.groupby('Sub_Category')['Revenue']
+        result=(df.groupby('Region')['Profit']
         .sum()
         .reset_index()
-        .sort_values("Revenue",ascending=False)
+        .sort_values("Profit",ascending=False)
         .reset_index(drop=True))
         st.dataframe(result)
         st.info("Answer generated using Pandas DataFrame operations")
     elif method=='SQL':
-        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        query="""SELECT Region,SUM(Profit) as Profit FROM orders GROUP BY Region ORDER BY Profit DESC"""
         result=pd.read_sql(query,conn)
         st.dataframe(result)
         st.info("Answer generated using SQLite query execution")
-    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
-    st.bar_chart(result.set_index("Sub_Category"))
+    st.success(f"Highest Profiting Region: {result.iloc[0]['Region']}")
+    st.bar_chart(result.set_index("Region"))
 
 with st.expander('Question 1: What is the sub category with the highest revenue?'):
     method=st.radio('Select a method',['Python','SQL'],key='q3')
