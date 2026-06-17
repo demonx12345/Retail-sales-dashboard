@@ -8,6 +8,7 @@ df=pd.read_csv('orders.csv')
 st.title('Retail Sales Dashboard')
 df["Revenue"]=(df["List_Price"]*df["Quantity"]*(1-df["Discount_Percent"]/100))
 df["Profit"]=((df["List_Price"]-df["cost_price"])*df["Quantity"]*(1-df["Discount_Percent"]/100))
+df["Profit_Margin"]=(df["Profit"]/df["Revenue"])*100
 
 df.to_sql('orders', conn, if_exists='replace', index=False)
 
@@ -135,40 +136,41 @@ with st.expander('Question 7: Which shipping mode is used most frequently?'):
     st.success(f"Most used Shipping Mode: {result.iloc[0]['Ship_Mode']}")
     st.bar_chart(result.set_index("Ship_Mode"))
 
-with st.expander('Question 1: What is the sub category with the highest revenue?'):
+with st.expander('Question 8: What are the top 10 cities by revenue?'):
     method=st.radio('Select a method',['Python','SQL'],key='q8')
     if method=='Python':
-        result=(df.groupby('Sub_Category')['Revenue']
+        result=(df.groupby('City')['Revenue']
         .sum()
         .reset_index()
         .sort_values("Revenue",ascending=False)
+        .head(10)
         .reset_index(drop=True))
         st.dataframe(result)
         st.info("Answer generated using Pandas DataFrame operations")
     elif method=='SQL':
-        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        query="""SELECT City,SUM(Revenue) as RevenueSQL FROM orders GROUP BY City ORDER BY RevenueSQL DESC LIMIT 10"""
         result=pd.read_sql(query,conn)
         st.dataframe(result)
         st.info("Answer generated using SQLite query execution")
-    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
-    st.bar_chart(result.set_index("Sub_Category"))
+    st.success(f"City with highest revenue: {result.iloc[0]['City']}")
+    st.bar_chart(result.set_index("City"))
 
-with st.expander('Question 1: What is the sub category with the highest revenue?'):
+with st.expander('Question 9: Which Sub Categories have the highest profit margin?'):
     method=st.radio('Select a method',['Python','SQL'],key='q9')
     if method=='Python':
-        result=(df.groupby('Sub_Category')['Revenue']
-        .sum()
+        result=(df.groupby('Sub_Category')['Profit_Margin']
+        .mean()
         .reset_index()
-        .sort_values("Revenue",ascending=False)
+        .sort_values("Profit_Margin",ascending=False)
         .reset_index(drop=True))
         st.dataframe(result)
         st.info("Answer generated using Pandas DataFrame operations")
     elif method=='SQL':
-        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        query="""SELECT Sub_Category,AVG(Profit_Margin) as Profit_MarginSQL FROM orders GROUP BY Sub_Category ORDER BY Profit_MarginSQL DESC"""
         result=pd.read_sql(query,conn)
         st.dataframe(result)
         st.info("Answer generated using SQLite query execution")
-    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.success(f"Sub Category with highest profit margin: {result.iloc[0]['Sub_Category']}")
     st.bar_chart(result.set_index("Sub_Category"))
 
 with st.expander('Question 1: What is the sub category with the highest revenue?'):
