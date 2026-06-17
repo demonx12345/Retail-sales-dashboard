@@ -128,7 +128,7 @@ with st.expander('Question 7: Which shipping mode is used most frequently?'):
         st.dataframe(result)
         st.info("Answer generated using Pandas DataFrame operations")
     elif method=='SQL':
-        query="""SELECT Ship_Mode,COUNT(Ship_Mode) as Order_CountSQL FROM orders GROUP BY Ship_Mode ORDER BY Order_CountSQL DESC"""
+        query="""SELECT Ship_Mode,COUNT(Ship_Mode) as Order_CountSQL FROM orders WHERE Ship_Mode IS NOT NULL GROUP BY Ship_Mode ORDER BY Order_CountSQL DESC"""
         result=pd.read_sql(query,conn)
         st.dataframe(result)
         st.info("Answer generated using SQLite query execution")
