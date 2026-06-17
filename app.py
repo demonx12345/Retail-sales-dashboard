@@ -28,4 +28,165 @@ with st.expander('Question 1: What is the sub category with the highest revenue?
         st.info("Answer generated using SQLite query execution")
     st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
     st.bar_chart(result.set_index("Sub_Category"))
- 
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q2')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q3')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q4')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q5')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q6')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q7')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q8')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q9')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
+
+with st.expander('Question 1: What is the sub category with the highest revenue?'):
+    method=st.radio('Select a method',['Python','SQL'],key='q10')
+    if method=='Python':
+        result=(df.groupby('Sub_Category')['Revenue']
+        .sum()
+        .reset_index()
+        .sort_values("Revenue",ascending=False)
+        .reset_index(drop=True))
+        st.dataframe(result)
+        st.info("Answer generated using Pandas DataFrame operations")
+    elif method=='SQL':
+        query="""SELECT Sub_Category,SUM(Revenue) as Revenue FROM orders GROUP BY Sub_Category ORDER BY Revenue DESC"""
+        result=pd.read_sql(query,conn)
+        st.dataframe(result)
+        st.info("Answer generated using SQLite query execution")
+    st.success(f"Highest Revenue Sub Category: {result.iloc[0]['Sub_Category']}")
+    st.bar_chart(result.set_index("Sub_Category"))
