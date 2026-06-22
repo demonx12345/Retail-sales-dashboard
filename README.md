@@ -1,30 +1,126 @@
 # Retail Sales Dashboard
 
-A Streamlit-based Retail Sales Analytics Dashboard that demonstrates data analysis using both Pandas and SQL.
+## Overview
+
+Retail Sales Dashboard is a Streamlit-based data analytics application built using Python, Pandas, SQLite, and AWS S3. The application analyzes a retail orders dataset and allows users to answer business questions using either Pandas operations or SQL queries.
+
+The dashboard supports both local CSV files and cloud-hosted datasets stored in AWS S3.
+
+---
 
 ## Features
 
-- Load retail order data from CSV
-- Store data in SQLite database
-- Answer business questions using:
-  - Pandas DataFrame operations
-  - SQL queries
-- Interactive Streamlit dashboard
-- Visualizations using charts
-- Cloud deployment through Streamlit Cloud
+* Interactive Streamlit dashboard
+* Dual query execution methods:
+
+  * Pandas DataFrame Operations
+  * SQLite Queries
+* AWS S3 Dataset Integration
+* SQLite Database Creation from CSV Data
+* Error Handling and Application Logging
+* Data Visualization using Streamlit Charts
+* Top 10 Business Analytics Queries
+
+---
 
 ## Technologies Used
 
-- Python
-- Pandas
-- SQLite
-- Streamlit
-- GitHub
-- AWS S3 (Dataset Storage)
+* Python 3.11
+* Streamlit
+* Pandas
+* SQLite3
+* AWS S3
+* Git & GitHub
+
+---
+
+## Project Structure
+
+```text
+Retail-Sales-Dashboard/
+│
+├── .streamlit/
+│   └── secrets.toml
+│
+├── app.py
+├── data_loader.py
+├── query_functions.py
+│
+├── orders.csv
+├── requirements.txt
+├── README.md
+├── .gitignore
+│
+├── retail.db (generated automatically)
+└── app.log (generated automatically)
+```
+
+---
+
+## Module Responsibilities
+
+### app.py
+
+Handles:
+
+* Streamlit User Interface
+* Dashboard Layout
+* User Interaction
+* Question Rendering
+
+### data_loader.py
+
+Handles:
+
+* Local CSV Loading
+* AWS S3 Dataset Loading
+* SQLite Database Creation
+
+### query_functions.py
+
+Contains:
+
+* All Pandas Analysis Functions
+* SQL Query Definitions
+* Business Analytics Logic
+
+---
+
+## Dataset Source Options
+
+### Local Dataset
+
+```python
+pd.read_csv("orders.csv")
+```
+
+### AWS S3 Dataset
+
+```python
+pd.read_csv(st.secrets["AWS_CSV_URL"])
+```
+
+---
+
+## Calculated Metrics
+
+### Revenue
+
+Revenue = List Price × Quantity × (1 - Discount Percent / 100)
+
+### Profit
+
+Profit = (List Price - Cost Price) × Quantity × (1 - Discount Percent / 100)
+
+### Profit Margin
+
+Profit Margin = (Profit / Revenue) × 100
+
+---
 
 ## Business Questions Answered
 
-1. Which sub-category generated the highest revenue?
+1. Which sub-category has the highest revenue?
 2. Which region generated the highest profit?
 3. What are the top 10 products by quantity sold?
 4. What is the average discount percentage by category?
@@ -33,48 +129,47 @@ A Streamlit-based Retail Sales Analytics Dashboard that demonstrates data analys
 7. Which shipping mode is used most frequently?
 8. What are the top 10 cities by revenue?
 9. Which sub-categories have the highest profit margin?
-10. Which city generated the highest profit?
+10. Which state generated the highest revenue?
 
-## Project Structure
+---
+
+## Error Handling
+
+The application includes exception handling for:
+
+* Dataset loading failures
+* AWS S3 connectivity issues
+* Invalid file paths
+* Database creation errors
+
+---
+
+## Logging
+
+Application events are recorded in:
 
 ```text
-Retail-Sales-Dashboard/
-│
-├── .streamlit/
-│   └── secrets.toml (contains AWS_CSV_URL)
-│
-├── app.py
-├── orders.csv
-├── requirements.txt
-├── README.md
-├── .gitignore
-│
-├── retail.db (auto-created)
-└── app.log (auto-created)
-```
-### Notes
-
-- `retail.db` is generated automatically when the application runs.
-- `app.log` is generated automatically for logging and error tracking.
-- `.streamlit/secrets.toml` stores the AWS S3 dataset URL and is excluded from Git using `.gitignore`.
-
-## Running Locally
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
+app.log
 ```
 
-Run the application:
+Logged events include:
 
-```bash
-streamlit run app.py
-```
+* Dataset loading
+* Database creation
+* Application execution status
+* Error messages
+
+---
 
 ## Deployment
 
-The application can be deployed using Streamlit Cloud.
+The application can be deployed using:
+
+* Streamlit Community Cloud
+* AWS S3 for dataset hosting
+* GitHub Repository Integration
+
+---
 
 ## Author
 
