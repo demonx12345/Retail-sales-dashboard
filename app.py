@@ -14,7 +14,6 @@ logging.info("SQLite database connected")
 
 st.title('Retail Sales Dashboard')
 source = st.selectbox("Dataset Source",["Local CSV", "AWS S3"])
-
 try:
     if source == "Local CSV":
         df = pd.read_csv("orders.csv")
@@ -72,148 +71,100 @@ run_question(
     success_text="Highest Profiting Region",
     index_column="Region"
 )
-
-with st.expander('Question 3: What are the top 10 products by quantity sold?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q3')
-    if method=='Python':
-        result=(df.groupby('Product_Id')['Quantity']
+run_question(
+    title="Question 3: What are the top 10 products by quantity sold?",
+    key="q3",
+    pandas_result=(df.groupby('Product_Id')['Quantity']
         .sum()
         .reset_index()
         .sort_values("Quantity",ascending=False)
         .head(10)
-        .reset_index(drop=True))
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT Product_Id,SUM(Quantity) as QuantitySQL FROM orders GROUP BY Product_Id ORDER BY QuantitySQL DESC LIMIT 10"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-    st.success(f"Product with the highest quantity sold: {result.iloc[0]['Product_Id']}")
-    st.bar_chart(result.set_index("Product_Id"))
-
-with st.expander('Question 4: What is the average discount percentage by category?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q4')
-    if method=='Python':
-        result=(df.groupby('Category')['Discount_Percent']
+        .reset_index(drop=True)),
+    sql_query="""SELECT Product_Id,SUM(Quantity) as QuantitySQL FROM orders GROUP BY Product_Id ORDER BY QuantitySQL DESC LIMIT 10""",
+    success_text="Product with the highest quantity sold",
+    index_column="Product_Id"
+)
+run_question(
+    title="Question 4: What is the average discount percentage by category?",
+    key="q4",
+    pandas_result=(df.groupby('Category')['Discount_Percent']
         .mean()
-        .reset_index())
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT Category,AVG(Discount_Percent) as Discount_PercentSQL FROM orders GROUP BY Category"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-
-
-with st.expander('Question 5: Which state placed the highest number of orders?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q5')
-    if method=='Python':
-        result=(df.groupby('State')['Order_Id']
+        .reset_index()),
+    sql_query="""SELECT Category,AVG(Discount_Percent) as Discount_PercentSQL FROM orders GROUP BY Category""",
+    success_text="Top Average Discount Percentage by Category",
+    index_column="Category"
+)
+run_question(
+    title="Question 5: Which state placed the highest number of orders?",
+    key="q5",
+    pandas_result=(df.groupby('State')['Order_Id']
         .count()
         .reset_index(name='Order_Count')
         .sort_values("Order_Count",ascending=False)
-        .reset_index(drop=True))
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT State,COUNT(State) as Order_CountSQL FROM orders GROUP BY State ORDER BY Order_CountSQL DESC"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-    st.success(f"State with highest number of orders: {result.iloc[0]['State']}")
-    st.bar_chart(result.set_index("State"))
-
-with st.expander('Question 6: Which customer segment generated the highest revenue?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q6')
-    if method=='Python':
-        result=(df.groupby('Segment')['Revenue']
+        .reset_index(drop=True)),
+    sql_query="""SELECT State,COUNT(State) as Order_CountSQL FROM orders GROUP BY State ORDER BY Order_CountSQL DESC""",
+    success_text="State with highest number of orders",
+    index_column="State"
+)
+run_question(
+    title="Question 6: Which customer segment generated the highest revenue?",
+    key="q6",
+    pandas_result=(df.groupby('Segment')['Revenue']
         .sum()
         .reset_index()
         .sort_values("Revenue",ascending=False)
-        .reset_index(drop=True))
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT Segment,SUM(Revenue) as RevenueSQL FROM orders GROUP BY Segment ORDER BY RevenueSQL DESC"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-    st.success(f"Highest Revenue Segment: {result.iloc[0]['Segment']}")
-    st.bar_chart(result.set_index("Segment"))
-
-with st.expander('Question 7: Which shipping mode is used most frequently?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q7')
-    if method=='Python':
-        result=(df.groupby('Ship_Mode')['Order_Id']
+        .reset_index(drop=True)),
+    sql_query="""SELECT Segment,SUM(Revenue) as RevenueSQL FROM orders GROUP BY Segment ORDER BY RevenueSQL DESC""",
+    success_text="Highest Revenue Segment",
+    index_column="Segment"
+)
+run_question(
+    title="Question 7: Which shipping mode is used most frequently?",
+    key="q7",
+    pandas_result=(df.groupby('Ship_Mode')['Order_Id']
         .count()
         .reset_index(name='Order_Count')
         .sort_values("Order_Count",ascending=False)
-        .reset_index(drop=True))
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT Ship_Mode,COUNT(Ship_Mode) as Order_CountSQL FROM orders WHERE Ship_Mode IS NOT NULL GROUP BY Ship_Mode ORDER BY Order_CountSQL DESC"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-    st.success(f"Most used Shipping Mode: {result.iloc[0]['Ship_Mode']}")
-    st.bar_chart(result.set_index("Ship_Mode"))
-
-with st.expander('Question 8: What are the top 10 cities by revenue?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q8')
-    if method=='Python':
-        result=(df.groupby('City')['Revenue']
+        .reset_index(drop=True)),
+    sql_query="""SELECT Ship_Mode,COUNT(Ship_Mode) as Order_CountSQL FROM orders WHERE Ship_Mode IS NOT NULL GROUP BY Ship_Mode ORDER BY Order_CountSQL DESC""",
+    success_text="Most used Shipping Mode",
+    index_column="Ship_Mode"
+)
+run_question(
+    title="Question 8: What are the top 10 cities by revenue?",
+    key="q8",
+    pandas_result=(df.groupby('City')['Revenue']
         .sum()
         .reset_index()
         .sort_values("Revenue",ascending=False)
         .head(10)
-        .reset_index(drop=True))
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT City,SUM(Revenue) as RevenueSQL FROM orders GROUP BY City ORDER BY RevenueSQL DESC LIMIT 10"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-    st.success(f"City with highest revenue: {result.iloc[0]['City']}")
-    st.bar_chart(result.set_index("City"))
-
-with st.expander('Question 9: Which Sub Categories have the highest profit margin?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q9')
-    if method=='Python':
-        result=(df.groupby('Sub_Category')['Profit_Margin']
+        .reset_index(drop=True)),
+    sql_query="""SELECT City,SUM(Revenue) as RevenueSQL FROM orders GROUP BY City ORDER BY RevenueSQL DESC LIMIT 10""",
+    success_text="City with highest revenue",
+    index_column="City"
+)
+run_question(
+    title="Question 9: Which Sub Categories have the highest profit margin?",
+    key="q9",
+    pandas_result=(df.groupby('Sub_Category')['Profit_Margin']
         .mean()
         .reset_index()
         .sort_values("Profit_Margin",ascending=False)
-        .reset_index(drop=True))
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT Sub_Category,AVG(Profit_Margin) as Profit_MarginSQL FROM orders GROUP BY Sub_Category ORDER BY Profit_MarginSQL DESC"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-    st.success(f"Sub Category with highest profit margin: {result.iloc[0]['Sub_Category']}")
-    st.bar_chart(result.set_index("Sub_Category"))
-
-with st.expander('Question 10: What is the State which generated the highest revenue?'):
-    method=st.radio('Select a method',['Python','SQL'],key='q10')
-    if method=='Python':
-        result=(df.groupby('State')['Revenue']
+        .reset_index(drop=True)),
+    sql_query="""SELECT Sub_Category,AVG(Profit_Margin) as Profit_MarginSQL FROM orders GROUP BY Sub_Category ORDER BY Profit_MarginSQL DESC""",
+    success_text="Sub Category with highest profit margin",
+    index_column="Sub_Category"
+)
+run_question(
+    title="Question 10: What is the State which generated the highest revenue?",
+    key="q10",
+    pandas_result=(df.groupby('State')['Revenue']
         .sum()
         .reset_index()
         .sort_values("Revenue",ascending=False)
-        .reset_index(drop=True))
-        st.dataframe(result)
-        st.info("Answer generated using Pandas DataFrame operations")
-    elif method=='SQL':
-        query="""SELECT State,SUM(Revenue) as RevenueSQL FROM orders GROUP BY State ORDER BY RevenueSQL DESC"""
-        result=pd.read_sql(query,conn)
-        st.dataframe(result)
-        st.info("Answer generated using SQLite query execution")
-    st.success(f"State with highest revenue: {result.iloc[0]['State']}")
-    st.bar_chart(result.set_index("State"))
-
+        .reset_index(drop=True)),
+    sql_query="""SELECT State,SUM(Revenue) as RevenueSQL FROM orders GROUP BY State ORDER BY RevenueSQL DESC""",
+    success_text="State with highest revenue",
+    index_column="State"
+)
 conn.close()
