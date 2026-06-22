@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 retail.db
 .streamlit/
+.streamlit/secrets.toml
