@@ -4,8 +4,14 @@ import sqlite3
 
 conn=sqlite3.connect('retail.db')
 
-df=pd.read_csv('orders.csv')
 st.title('Retail Sales Dashboard')
+source = st.selectbox("Dataset Source",["Local CSV", "AWS S3"])
+
+if source == "Local CSV":
+    df = pd.read_csv("orders.csv")
+else:
+    df = pd.read_csv(st.secrets["AWS_CSV_URL"])
+
 df["Revenue"]=(df["List_Price"]*df["Quantity"]*(1-df["Discount_Percent"]/100))
 df["Profit"]=((df["List_Price"]-df["cost_price"])*df["Quantity"]*(1-df["Discount_Percent"]/100))
 df["Profit_Margin"]=(df["Profit"]/df["Revenue"])*100
