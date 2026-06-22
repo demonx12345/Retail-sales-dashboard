@@ -4,3 +4,4 @@ __pycache__/
 retail.db
 .streamlit/
 .streamlit/secrets.toml
+app.log
