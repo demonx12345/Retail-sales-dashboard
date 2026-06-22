@@ -196,3 +196,5 @@ with st.expander('Question 10: What is the State which generated the highest rev
         st.info("Answer generated using SQLite query execution")
     st.success(f"State with highest revenue: {result.iloc[0]['State']}")
     st.bar_chart(result.set_index("State"))
+
+conn.close()
