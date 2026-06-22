@@ -40,6 +40,8 @@ A Streamlit-based Retail Sales Analytics Dashboard that demonstrates data analys
 ```text
 Retail-Sales-Dashboard/
 │
+├── .streamlit
+│   └── secrets.toml
 ├── app.py
 ├── orders.csv
 ├── retail.db
