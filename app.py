@@ -1,22 +1,39 @@
 import pandas as pd
 import streamlit as st
 import sqlite3
+import logging
+
+logging.basicConfig(
+    filename='app.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 conn=sqlite3.connect('retail.db')
+logging.info("SQLite database connected")
 
 st.title('Retail Sales Dashboard')
 source = st.selectbox("Dataset Source",["Local CSV", "AWS S3"])
 
-if source == "Local CSV":
-    df = pd.read_csv("orders.csv")
-else:
-    df = pd.read_csv(st.secrets["AWS_CSV_URL"])
+try:
+    if source == "Local CSV":
+        df = pd.read_csv("orders.csv")
+        logging.info("Loaded Local CSV")
+    else:
+        df = pd.read_csv(st.secrets["AWS_CSV_URL"])
+        logging.info("Loaded AWS S3 Dataset")
+
+except Exception as e:
+    logging.error(f"Dataset loading failed: {e}")
+    st.error("Dataset could not be loaded")
+    st.stop()
 
 df["Revenue"]=(df["List_Price"]*df["Quantity"]*(1-df["Discount_Percent"]/100))
 df["Profit"]=((df["List_Price"]-df["cost_price"])*df["Quantity"]*(1-df["Discount_Percent"]/100))
 df["Profit_Margin"]=(df["Profit"]/df["Revenue"])*100
 
 df.to_sql('orders', conn, if_exists='replace', index=False)
+logging.info("Orders table created successfully")
 
 with st.expander('Question 1: What is the sub category with the highest revenue?'):
     method=st.radio('Select a method',['Python','SQL'],key='q1')
