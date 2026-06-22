@@ -40,15 +40,23 @@ A Streamlit-based Retail Sales Analytics Dashboard that demonstrates data analys
 ```text
 Retail-Sales-Dashboard/
 │
-├── .streamlit
-│   └── secrets.toml
+├── .streamlit/
+│   └── secrets.toml (contains AWS_CSV_URL)
+│
 ├── app.py
 ├── orders.csv
-├── retail.db
 ├── requirements.txt
 ├── README.md
-└── .gitignore
+├── .gitignore
+│
+├── retail.db (auto-created)
+└── app.log (auto-created)
 ```
+### Notes
+
+- `retail.db` is generated automatically when the application runs.
+- `app.log` is generated automatically for logging and error tracking.
+- `.streamlit/secrets.toml` stores the AWS S3 dataset URL and is excluded from Git using `.gitignore`.
 
 ## Running Locally
 
